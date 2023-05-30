@@ -1,103 +1,94 @@
-const url = 'https://api.beta.dofusdb.fr/';
-
-
-
-let tab = []
-let mainContainer = document.querySelector(".containerMain")
-let searchInput = document.querySelector("#search")
-let searchButton = document.querySelector("#sendSearch")
-let sugest = document.querySelector("#sugest")
-let searchContainer = document.querySelector("#searchContainer")
 let Data
+let index
+let trycount = 0
+let searchItemImage = document.querySelector(".searchItemImg")
+let searchItemName = document.querySelector(".searchItemName")
+let searchItemType = document.querySelector(".searchItemType")
+let searchItemNiveau = document.querySelector(".searchItemNiveau")
+let searchItemElements = document.querySelector(".searchItemElements")
+let searchbar = document.querySelector(".searchbar")
+let searchbarButton = document.querySelector(".searchbarImg")
+let suggestionContainer = document.querySelector(".suggestionContainer")
+let tryContainer = document.querySelector(".tryContainer")
+let elementFind = []
+
 
 fetch("./items.json")
 .then(response => response.json())
 .then(data => {
   // Traiter les données de la réponse
   Data = data
-  createImage(data[Math.floor(Math.random()*data.length)])
+  index = Math.floor(Math.random()*data.length)
+  SetupSearchItem(data[index])
 })
 .catch(error => {
   // Gérer les erreurs
   console.error(error);
 });
 
-// items(0)
 
+function SetupSearchItem(items){
+    searchItemImage.src = ""
+}
 
-function createImage(val){
+function createItemElements(element){
     let div = document.createElement("div")
-    div.classList.toggle("item")
-    addText(div, val.slug.fr,"name")
-    addImg(div,val.img,"itemImg")
-    let caracContainer = document.createElement("div")
-    caracContainer.classList.toggle("caracContainer")
-    val.effects.forEach(effect=>{
+    let info = document.createElement("div")
+    info.innerText = element.characteristic
+    let divinfo = document.createElement("div")
+    info.classList.toggle("infoElement")
+    div.classList.toggle("elementsImgContainer")
+    let img = document.createElement("img")
+    img.src = element.img
+    img.classList.toggle("searchElementImg")
+    if(element.from < 0){
+        img.classList.toggle("red")
+    }else{
+        img.classList.toggle("green")
+    }
+    div.appendChild(img)
+    div.appendChild(info)
+    searchItemElements.appendChild(div)
+}
 
-        if (effect.characteristic && effect.img){
-            let div2 = document.createElement("div")
-            div2.classList.toggle("carac")
-            addImg(div2,effect.img,"caracImg")
-            addText(div2,effect.characteristic,"caracText")
-            caracContainer.appendChild(div2)
+function search(name){
+    for (let i = 0; i< Data.length;i++){
+        if (Data[i].slug.fr == name){
+            return Data[i]
         }
-
-    })
-    addText(div,val.type.name.fr,"typeText")
-    addText(div,val.level,"typeText")
-    div.appendChild(caracContainer)
-    tab.push(val)
-
-    mainContainer.appendChild(div)
+    }
 }
 
-function addText(parent,text,classe){
-    let div = document.createElement("div")
-    div.classList.toggle(classe)
-    div.innerText = text
-    parent.appendChild(div)
-}
-
-function addImg(parent,src,classe){
-    let div = document.createElement("img")
-    div.src = src
-    div.classList.toggle(classe)
-    parent.appendChild(div)
-}
-
-searchInput.addEventListener("focus",(e)=>{
-    console.log("test")
-    sugest.hidden = false
+searchbarButton.addEventListener("click",(e)=>{
+    let res = search(searchbar.value)
+    createTry(res)
 })
 
-searchInput.addEventListener("focusout",(e)=>{
-    console.log("test2")
-    sugest.hidden = true
-})
-searchInput.addEventListener("input",(e)=>{
+
+searchbar.addEventListener("input",(e)=>{
     closeList();
 
     //If the input is empty, exit the function
-    if (!searchInput.value || searchInput.value <4)
+    if (!searchbar.value || searchbar.value.length <3)
         return;
 
     //Create a suggestions <div> and add it to the element containing the input field
     suggestions = document.createElement('div');
     suggestions.setAttribute('id', 'suggestions');
-    sugest.appendChild(suggestions);
+    suggestionContainer.appendChild(suggestions);
 
     //Iterate through all entries in the list and find matches
     for (let i=0; i<Data.length; i++) {
-        if (Data[i].slug.fr.toUpperCase().includes(searchInput.value.toUpperCase())) {
+        if (Data[i].slug.fr.toUpperCase().includes(searchbar.value.toUpperCase())) {
             //If a match is foundm create a suggestion <div> and add it to the suggestions <div>
             let div = document.createElement("div")
-            div.classList.toggle("suggestionDiv")
+            div.classList.toggle("suggestion")
             suggestion = document.createElement('div');
             suggestionImg = document.createElement('img');
             suggestionImg.src = Data[i].img
             suggestion.innerHTML = Data[i].slug.fr;
             div.addEventListener('click', function () {
-                searchInput.value = this.children[1].innerHTML;
+                searchbar.value = this.children[1].innerHTML;
                 closeList();
             });
             div.style.cursor = 'pointer';
@@ -107,6 +98,15 @@ searchInput.addEventListener("input",(e)=>{
         }
     }
 })
+searchbar.addEventListener("focus",(e)=>{
+    suggestionContainer.hidden = false
+})
+
+window.addEventListener('click', function(e){   
+    if (!document.querySelector(".eventZone").contains(e.target)){
+        suggestionContainer.hidden = true
+    } 
+  });
 
 function closeList() {
     let suggestions = document.getElementById('suggestions');
@@ -114,20 +114,109 @@ function closeList() {
         suggestions.parentNode.removeChild(suggestions);
 }
 
-searchButton.addEventListener("click",()=>{
-    console.log(search(searchInput.value))
-    createImage(search(searchInput.value))
-})
 
+function createTry(item){
+    trycount += 1
+    let div = document.createElement("div")
+    div.classList.toggle("try")
+    let imgContain = document.createElement("div")
+    let tryItemImg =document.createElement("img")
+    tryItemImg.classList.toggle("tryItemImg")
+    tryItemImg.src = item.img
+    imgContain.appendChild(tryItemImg)
+    div.appendChild(imgContain)
+    let tryInfoContainer = document.createElement("div")
+    tryInfoContainer.classList.toggle("tryInfoContainer")
+    let tryNiveau = document.createElement("tryNiveau")
+    tryNiveau.innerText = item.level
+    tryNiveau.classList.toggle("tryNiveau")
+    if (Data[index].level > item.level){
+        badTry(tryNiveau, "↑")
+    }else if(Data[index].level < item.level){
+        badTry(tryNiveau, "↓")
+    }else{
+        revealLevel()
+        tryNiveau.classList.toggle("green")
+    }
+    tryInfoContainer.appendChild(tryNiveau)
+    div.appendChild(tryInfoContainer)
 
+    let tryInfoContainer2 = document.createElement("div")
+    tryInfoContainer2.classList.toggle("tryInfoContainer")
+    let tryType = document.createElement("tryType")
+    tryType.innerText = item.type.name.fr
+    tryType.classList.toggle("tryType")
+    tryInfoContainer2.appendChild(tryType)
+    if (Data[index].type.name.fr ==  item.type.name.fr){
+        revealType()
+        tryType.classList.toggle("green")
+    }else{
+        badTry(tryType)
+    }
+    div.appendChild(tryInfoContainer2)
 
-function search(name){
+    let tryElementcontainer = document.createElement("div")
+    tryElementcontainer.classList.toggle("tryElementContainer")
+    item.effects.forEach(effect=>{
+        if (effect.characteristic != "Points de vie" && effect.characteristic){
+            let img = document.createElement("img")
+            img.classList.toggle("tryElementImg")
+            img.src = effect.img
+            img.alt = effect.characteristic
+            let alt = document.createElement("div")
+            alt.innerText = effect.characteristic
+            img.classList.toggle("red")
+            Data[index].effects.forEach(elem=>{
+                if (elem.characteristic == effect.characteristic){
+                    img.classList.toggle("green")
+                    if(!elementFind.includes(effect.characteristic)){
 
-        for (let i = 0; i< Data.length;i++){
-            if (Data[i].slug.fr == name){
-                return Data[i]
-            }
+                        createItemElements(elem)
+                    }
+                    elementFind.push(elem.characteristic)
+
+                }
+            })
+            alt.classList.toggle("alt")
+            img.addEventListener("mouseout",()=>{
+                alt.hidden = true
+            })
+            img.addEventListener("mouseover",()=>{
+                alt.hidden = false
+            })
+            img.appendChild(alt)
+            tryElementcontainer.appendChild(img)
         }
-    
+    })
+    div.appendChild(tryElementcontainer)
+    tryContainer.insertBefore(div, tryContainer.firstChild)
+    if(item.slug.fr == Data[index].slug.fr){
+        endGame()
+    }
 }
 
+
+function badTry(div, text){
+    div.classList.toggle("red")
+    if(text){
+        let span = document.createElement("span")
+        span.classList.toggle("arrow")
+        span.innerHTML = text
+        div.appendChild(span)
+    }
+}
+
+
+function revealLevel(){
+    searchItemNiveau.innerHTML = Data[index].level
+}
+
+function revealType(){
+    searchItemType.innerHTML = Data[index].type.name.fr
+}
+
+function endGame(){
+    searchItemImage.src = Data[index].img
+    searchItemName.innerText = Data[index].slug.fr
+    alert(`Vous avez gagné en ${trycount}`)
+}
