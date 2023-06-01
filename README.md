@@ -1,7 +1,5 @@
 # DofusDle
 
-![DofusDle Logo](https://example.com/logo.png)
-
 DofusDle est un site web proposant un jeu quotidien basé sur l'univers de Dofus, un célèbre jeu de rôle en ligne. Le concept du jeu consiste à deviner l'équipement de Dofus en proposant d'autres équipements. Les joueurs doivent utiliser leur connaissance de l'univers de Dofus et leurs compétences en résolution de problèmes pour trouver la bonne combinaison.
 
 ## Fonctionnalités principales
