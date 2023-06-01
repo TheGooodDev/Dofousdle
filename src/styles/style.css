@@ -5,15 +5,24 @@
 
 @font-face {
     font-family: K2D;
-    src: url(./font/K2D-Regular.ttf);
+    src: url("./fonts/K2D-Regular.ttf");
 }
 
 body {
+    background-color: #00001C;
     font-family: 'K2D';
-    background-image: url("./bg.jpg");
+    background-image: url("./bg.png");
     background-repeat: no-repeat;
+    background-position: center;
     background-attachment: fixed;
     background-size: cover;
+}
+
+.blur
+{
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(100%);
 }
 
 .flexrow {
