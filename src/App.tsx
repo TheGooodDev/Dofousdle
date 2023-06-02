@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup';
 export let Data: any
 export let SearchItem: Item
 
-await fetch("./src/data/items.json")
+fetch("./src/data/items.json")
   .then(response => response.json())
   .then(data => {
     Data = data
@@ -20,7 +20,10 @@ await fetch("./src/data/items.json")
   });
 
 function App() {
-
+  const [searchValue, setSearch] = useState("")
+  const handleChange = (e: any) => {
+    setSearch(e.target.value)
+  }
   const [emptyItem, setItem] = useState(new Item(null, "fr"))
   const [allTry, setTry] = useState(new Array<Item>())
   const [autocomplete, setAutocomplet] = useState(new Array())
@@ -59,7 +62,7 @@ function App() {
           <div className="eventZone" >
 
             <div className="searchbarContainer">
-              <input className="searchbar" type="text" placeholder="Search" onFocus={(e) => {
+              <input className="searchbar" onChange={handleChange} value={searchValue} type="text" placeholder="Search" onFocus={(e) => {
                 if (e.currentTarget.value == "") {
                   return
                 }
@@ -97,7 +100,9 @@ function App() {
 
               }} />
               <img className="searchbarImg" src="https://upload.wikimedia.org/wikipedia/fr/a/a3/Dofus_emeraude.png" alt="" onClick={() => {
-                let item = search(document.querySelector(".searchbar").value)
+
+                let item = search(searchValue)
+
 
                 if (item) {
                   for (let i = 0; i < allTry.length; i++) {
@@ -139,7 +144,7 @@ function App() {
             <div className="suggestionContainer">
               {autocomplete.map((element: any, index: number) => {
                 return <div key={index} className="suggestion" onClick={() => {
-                  document.querySelector(".searchbar").value = element.slug.fr
+                  setSearch(element.slug.fr)
                   setAutocomplet(new Array())
                 }}>
                   <img src={element.img} alt="" />
