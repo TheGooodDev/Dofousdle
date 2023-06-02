@@ -178,6 +178,7 @@ body {
   width: 360px;
   max-height: 300px;
   overflow: scroll;
+  overflow-x: hidden;
   position: absolute;
   scrollbar-width: none;
   z-index: 5;

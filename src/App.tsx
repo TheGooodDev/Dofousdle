@@ -37,7 +37,7 @@ function App() {
               emptyItem.description = SearchItem.description
               setItem({ ...emptyItem })
             }}>Indice</button>
-            <Popup trigger={<button className="button"> Open Modal </button>} modal nested  >                 <p>
+            <Popup trigger={<button className="hint"> Regle </button>} modal nested  >                 <p>
               Bienvenue dans DofousDle. <br />
               Votre but est de trouver l'item en proposant d'autre item.
               <br />
