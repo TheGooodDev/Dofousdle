@@ -32,7 +32,7 @@ function App() {
           <div>
             <button className="hint" onClick={() => {
               emptyItem.description = SearchItem.description
-              setItem({ ...SearchItem })
+              setItem({ ...emptyItem })
             }}>Indice</button>
             <Popup trigger={<button className="hint"> Regle </button>} modal nested  >                 <p>
               Bienvenue dans DofousDle. <br />
