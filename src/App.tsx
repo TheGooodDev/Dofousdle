@@ -104,8 +104,7 @@ function App() {
                   }
 
                   if (item.name == SearchItem.name) {
-                    emptyItem.name = item.name
-                    emptyItem.img = item.img
+                    setItem(SearchItem)
                     alert("GG")
                   }
 
@@ -121,7 +120,7 @@ function App() {
                   item.elements.forEach((element: any) => {
                     SearchItem.elements.forEach((element2: any) => {
                       if (element2.name == element.name && emptyItem.elements.includes(element2) == false) {
-                        emptyItem.elements.push(element2)
+                        emptyItem.elements.unshift(element2)
                       }
                     })
                   })
