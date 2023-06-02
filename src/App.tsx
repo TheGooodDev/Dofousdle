@@ -10,7 +10,7 @@ export let Data: any
 export let SearchItem: Item
 
 fetch("./src/data/items.json")
-  .then(response => response.json())
+  .then(response => response.json())  
   .then(data => {
     Data = data
     SearchItem = new Item(data[Math.floor(Math.random() * data.length)], "fr")
@@ -32,7 +32,7 @@ function App() {
     <>
       <div className="App">
         <div className='itemContainer'>
-          <SearchItemComponent  {...emptyItem} />
+          <SearchItemComponent key="1" {...emptyItem} />
         </div>
         <div className='SearchZone'>
           <h1 className='Titre'>DofousDle</h1>
