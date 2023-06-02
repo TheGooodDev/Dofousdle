@@ -10,6 +10,7 @@ export let Data: any
 export let SearchItem: Item
 
 fetch("./src/data/items.json")
+fetch("./src/data/items.json")
   .then(response => response.json())
   .then(data => {
     Data = data
@@ -27,6 +28,9 @@ function App() {
   const [emptyItem, setItem] = useState(new Item(null, "fr"))
   const [allTry, setTry] = useState(new Array<Item>())
   const [autocomplete, setAutocomplet] = useState(new Array())
+  const handleSearch = (e: any) => {
+    setSearchText(e.target.value)
+  }
   return (
     <>
       <div className="App">
@@ -40,6 +44,7 @@ function App() {
               emptyItem.description = SearchItem.description
               setItem({ ...emptyItem })
             }}>Indice</button>
+            <Popup trigger={<button className="hint"> Regle </button>} modal nested  >                 <p>
             <Popup trigger={<button className="hint"> Regle </button>} modal nested  >                 <p>
               Bienvenue dans DofousDle. <br />
               Votre but est de trouver l'item en proposant d'autre item.

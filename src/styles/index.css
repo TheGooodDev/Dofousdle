@@ -4,10 +4,6 @@
 }
 
 
-@font-face {
-  font-family: K2D;
-  src: url("./fonts/K2D-Regular.ttf");
-}
 
 .App {
   display: flex;
@@ -19,7 +15,7 @@
 body {
   background-color: #00001C;
   font-family: 'K2D';
-  background-image: url("./bg.png");
+  background-image: url("../assets/bg.png");
   background-repeat: no-repeat;
   background-position: center;
   background-attachment: fixed;
