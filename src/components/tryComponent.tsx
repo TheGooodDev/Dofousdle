@@ -1,4 +1,5 @@
-import { SearchItem } from "../App";
+
+import { SearchItem } from "../main";
 import { Item } from "../models/Item";
 
 export default function TryComponent(item: Item) {

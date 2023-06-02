@@ -5,21 +5,14 @@ import SearchItemComponent from './components/SearchItemComponent';
 import { CapitalizeAll } from './utils/capitalize';
 import TryComponent from './components/tryComponent';
 import Popup from 'reactjs-popup';
+import { Data, SearchItem } from './main';
 
-export let Data: any
-export let SearchItem: Item
 
-fetch("./src/data/items.json")
-  .then(response => response.json())  
-  .then(data => {
-    Data = data
-    SearchItem = new Item(data[Math.floor(Math.random() * data.length)], "fr")
-  })
-  .catch(error => {
-    console.error(error);
-  });
+
+
 
 function App() {
+
 
   const [searchText, setSearchText] = useState("")
   const [emptyItem, setItem] = useState(new Item(null, "fr"))
@@ -39,7 +32,7 @@ function App() {
           <div>
             <button className="hint" onClick={() => {
               emptyItem.description = SearchItem.description
-              setItem({ ...emptyItem })
+              setItem({ ...SearchItem })
             }}>Indice</button>
             <Popup trigger={<button className="hint"> Regle </button>} modal nested  >                 <p>
               Bienvenue dans DofousDle. <br />

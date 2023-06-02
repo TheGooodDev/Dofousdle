@@ -9,6 +9,7 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -22,4 +23,5 @@
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
+
 }

@@ -128,6 +128,15 @@ body {
   display: flex;
   flex-direction: column;
   width: calc(100vw/3 *2);
+
+  margin: 10px;
+}
+
+@media (max-width: 768px) {
+  .SearchZone {
+    align-items: center;
+    width: 100vw;
+  }
 }
 
 .Titre {
@@ -204,17 +213,30 @@ body {
   margin-right: 20px;
 }
 
+.tryContainer{
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .tryContainer {
+    align-items: center;
+  }
+}
+
 .try {
   width: 35vw;
   display: flex;
   flex-direction: row;
   background-color: #000000c7;
+
 }
 
 @media (max-width: 768px) {
   .try {
     width: 70vw;
     flex-direction: column;
+
   }
 }
 
