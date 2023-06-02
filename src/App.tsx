@@ -9,7 +9,7 @@ import Popup from 'reactjs-popup';
 export let Data: any
 export let SearchItem: Item
 
-await fetch("./src/data/items.json")
+fetch("./src/data/items.json")
   .then(response => response.json())
   .then(data => {
     Data = data
@@ -21,9 +21,13 @@ await fetch("./src/data/items.json")
 
 function App() {
 
+  const [searchText, setSearchText] = useState("")
   const [emptyItem, setItem] = useState(new Item(null, "fr"))
   const [allTry, setTry] = useState(new Array<Item>())
   const [autocomplete, setAutocomplet] = useState(new Array())
+  const handleSearch = (e: any) => {
+    setSearchText(e.target.value)
+  }
   return (
     <>
       <div className="App">
@@ -37,7 +41,7 @@ function App() {
               emptyItem.description = SearchItem.description
               setItem({ ...emptyItem })
             }}>Indice</button>
-            <Popup trigger={<button className="button"> Open Modal </button>} modal nested  >                 <p>
+            <Popup trigger={<button className="hint"> Regle </button>} modal nested  >                 <p>
               Bienvenue dans DofousDle. <br />
               Votre but est de trouver l'item en proposant d'autre item.
               <br />
@@ -59,7 +63,7 @@ function App() {
           <div className="eventZone" >
 
             <div className="searchbarContainer">
-              <input className="searchbar" type="text" placeholder="Search" onFocus={(e) => {
+              <input className="searchbar" type="text" placeholder="Search" onChange={handleSearch} value={searchText} onFocus={(e) => {
                 if (e.currentTarget.value == "") {
                   return
                 }
@@ -97,7 +101,7 @@ function App() {
 
               }} />
               <img className="searchbarImg" src="https://upload.wikimedia.org/wikipedia/fr/a/a3/Dofus_emeraude.png" alt="" onClick={() => {
-                let item = search(document.querySelector(".searchbar").value)
+                let item = search(searchText)
 
                 if (item) {
                   for (let i = 0; i < allTry.length; i++) {
@@ -139,7 +143,7 @@ function App() {
             <div className="suggestionContainer">
               {autocomplete.map((element: any, index: number) => {
                 return <div key={index} className="suggestion" onClick={() => {
-                  document.querySelector(".searchbar").value = element.slug.fr
+                  setSearchText(element.slug.fr)
                   setAutocomplet(new Array())
                 }}>
                   <img src={element.img} alt="" />
