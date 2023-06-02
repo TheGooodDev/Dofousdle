@@ -150,7 +150,7 @@ function App() {
 
             </div>
             <div className="tryContainer">
-              {allTry.reverse().map((element: any, index: number) => {
+              {allTry.map((element: any, index: number) => {
                 return <TryComponent key={index} {...element} />
               })}
             </div>
